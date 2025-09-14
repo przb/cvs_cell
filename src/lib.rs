@@ -31,32 +31,29 @@ impl<T> CvsCell<T> {
     /// Sets the new value inside the cell
     #[inline]
     pub fn set(&self, val: T) {
-        self.replace(val);
-    }
-
-    /// replace the value in the cell, and return the old value
-    #[inline]
-    pub fn replace(&self, val: T) -> T {
-        let mut old = unsafe { self.value.get().read_volatile() };
-        mem::replace(&mut old, val)
+        unsafe { self.value.get().write_volatile(val) };
     }
 
     /// Consumes the cell, returning the inner value
     pub fn into_inner(self) -> T {
         self.value.into_inner()
     }
-}
 
-impl<T: Copy> CvsCell<T> {
     /// Get a copy of the current value of the cell
     #[inline]
-    pub fn get(&self) -> T {
+    pub fn get(&self) -> T
+    where
+        T: Copy,
+    {
         unsafe { self.value.get().read_volatile() }
     }
 
     /// Update the value in the cell with the given function. Returns the old data
     #[inline]
-    pub fn update(&self, f: impl FnOnce(T) -> T) -> T {
+    pub fn update(&self, f: impl FnOnce(T) -> T) -> T
+    where
+        T: Copy,
+    {
         let old = self.get();
         self.set(f(old));
         old
