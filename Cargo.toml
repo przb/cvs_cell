@@ -4,3 +4,17 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+
+[lints.rust]
+missing_docs = "warn"
+
+[lints.clippy]
+all	= "warn"
+correctness	= "warn"
+suspicious	= "warn"
+style	= "warn"
+complexity	= "warn"
+perf	= "warn"
+pedantic	= "warn"
+nursery	= "warn"
+cargo = "warn"
