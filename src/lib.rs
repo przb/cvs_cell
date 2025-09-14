@@ -30,6 +30,7 @@ impl<T> CvsCell<T> {
     }
 
     /// Consumes the cell, returning the inner value
+    #[inline]
     pub fn into_inner(self) -> T {
         self.value.into_inner()
     }
@@ -52,6 +53,12 @@ impl<T> CvsCell<T> {
         let old = self.get();
         self.set(f(old));
         old
+    }
+
+    /// Gets a mutable pointer to the wrapped value
+    #[inline]
+    pub fn as_ptr(&self) -> *mut T {
+        self.value.get()
     }
 }
 
