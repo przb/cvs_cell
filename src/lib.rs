@@ -1,9 +1,4 @@
-//! LIke a volatile cell, but with a differnet invariant.
-//!
-//!
-//!
-//!
-
+#![doc = include_str!("../README.md")]
 #![no_std]
 
 use core::cell::UnsafeCell;
