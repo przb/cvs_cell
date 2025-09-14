@@ -21,6 +21,7 @@ unsafe impl<T> Sync for CvsCell<T> {}
 
 impl<T> CvsCell<T> {
     /// make a new cell
+    #[inline]
     pub const unsafe fn new(val: T) -> Self {
         Self {
             value: UnsafeCell::new(val),
@@ -28,24 +29,33 @@ impl<T> CvsCell<T> {
     }
 
     /// Sets the new value inside the cell
+    #[inline]
     pub fn set(&self, val: T) {
         self.replace(val);
     }
 
     /// replace the value in the cell, and return the old value
+    #[inline]
     pub fn replace(&self, val: T) -> T {
         let mut old = unsafe { self.value.get().read_volatile() };
         mem::replace(&mut old, val)
+    }
+
+    /// Consumes the cell, returning the inner value
+    pub fn into_inner(self) -> T {
+        self.value.into_inner()
     }
 }
 
 impl<T: Copy> CvsCell<T> {
     /// Get a copy of the current value of the cell
+    #[inline]
     pub fn get(&self) -> T {
         unsafe { self.value.get().read_volatile() }
     }
 
     /// Update the value in the cell with the given function. Returns the old data
+    #[inline]
     pub fn update(&self, f: impl FnOnce(T) -> T) -> T {
         let old = self.get();
         self.set(f(old));
