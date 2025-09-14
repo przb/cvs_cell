@@ -6,7 +6,7 @@
 
 #![no_std]
 
-use core::{cell::UnsafeCell, mem};
+use core::cell::UnsafeCell;
 
 /// A `const volatile static` (CVS) Cell.
 #[repr(transparent)]
