@@ -64,7 +64,7 @@ use core::cell::UnsafeCell;
 ///
 /// # Safety
 /// A [`CvsCell`], and a reference to a [`CvsCell`], cannot be shared between
-/// threads safetly. Doing so will cause data races. This should only be used
+/// threads safely. Doing so will cause data races. This should only be used
 /// in single-threaded code and outside of interrupt driven pre-emption. See
 /// the module-level docs for more info.
 ///
